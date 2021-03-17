@@ -16,8 +16,8 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AccountBalanceIcon from '@material-ui/icons/AccountBalance';
-import MainListItems from '../components/listItems';
-import RegisterForm from '../components/FormRegister';
+import ListItems from '../components/listItems';
+import FormRegister from '../components/FormRegister';
 import Notification from '../components/notification';
 
 const Copyright = () => (
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+    paddingRight: 24,
   },
   toolbarIcon: {
     display: 'flex',
@@ -164,22 +164,21 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
-        <MainListItems setOperation={setOperation} />
+        <ListItems setOperation={setOperation} />
         <Divider />
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-            {/* RegisterForm */}
             <Grid item xs={12}>
               <Paper className={fixedHeightPaper} elevation={3}>
-                <RegisterForm operation={operation} res={setRes} />
+                <FormRegister operation={operation} res={setRes} />
               </Paper>
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <Notification res={res} />
+            <Grid item xs={12}>
+              <Notification res={res} setRes={setRes} />
+            </Grid>
           </Grid>
           <Box pt={4}>
             <Copyright />

@@ -1,44 +1,64 @@
 import { useEffect, useState } from 'react';
-import { Grid } from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import { makeStyles } from '@material-ui/core/styles';
+import { Alert, AlertTitle } from '@material-ui/lab';
 
-const Alert = (props) => (<MuiAlert elevation={6} variant="filled" {...props} />);
+const MuiAlert = (props) => (<Alert elevation={6} variant="filled" {...props} />);
 
-const MyALert = (res, show, handleClose) => (
+const MyALert = ({ res, show, handleClose }) => (
   <Snackbar open={show} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}>
-    <Alert onClose={handleClose} severity={res.error ? 'error' : 'success'}>
+    <MuiAlert onClose={handleClose} severity={res.error ? 'error' : 'success'}>
       {res.msg}
-    </Alert>
+    </MuiAlert>
   </Snackbar>
 );
 
-const notification = (res) => {
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    '& > * + *': {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
+
+const notification = ({ res, setRes }) => {
+  const classes = useStyles();
   const [show, setShow] = useState(false);
-  const handleClose = (event, reason) => {
-    console.log(event, reason);
+  const handleClose = (_, reason) => {
     if (reason === 'clickaway') return;
+    setRes({
+      error: false,
+      msg: null,
+      errors: [],
+    });
     setShow(false);
   };
 
   useEffect(() => {
     if (res.msg) setShow(true);
-    if (show) setTimeout(() => setShow(false), 30000);
+    if (show) {
+      setTimeout(() => {
+        setRes({
+          error: false,
+          msg: null,
+          errors: [],
+        });
+        setShow(false);
+      }, 30000);
+    }
   });
-  console.log('show', show);
   return (
     <>
-      {res.error && (
-      <Grid container xs={12}>
-        <Grid item className="alert alert-danger mt-3">
-          {res.msg}
-        </Grid>
-        <Grid item className="alert alert-danger mt-3">
+      {res.msg && (
+      <div className={classes.root}>
+        <Alert severity={res.error ? 'error' : 'success'}>
+          <AlertTitle>{res.msg}</AlertTitle>
           <ul>
-            {res.errors.map((item) => <li>{item}</li>)}
+            {res.errors?.map((item) => <li>{item}</li>)}
           </ul>
-        </Grid>
-      </Grid>
+        </Alert>
+      </div>
       )}
       {show && <MyALert res={res} show={show} handleClose={handleClose} />}
     </>

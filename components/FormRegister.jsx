@@ -1,8 +1,6 @@
-/* eslint-disable default-case */
 import React, { useState, useEffect, useRef } from 'react';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { Grid, Button, InputAdornment as IA } from '@material-ui/core';
-// import Grow from '@material-ui/core/Grow';
 import { makeStyles } from '@material-ui/core/styles';
 import handleOperation from '../lib/handleOperation';
 
@@ -15,17 +13,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ValidationTextFields({ operation, res }) {
+const FormRegister = ({ operation, res }) => {
   const classes = useStyles();
   const formRef = useRef();
-  const [req, setRequest] = useState({
-    name: undefined,
-    email: undefined,
-    phone: undefined,
-    dni: undefined,
-    value: undefined,
-    token: undefined,
-  });
+  const [req, setRequest] = useState({});
   const handleSubmit = (e) => {
     e.preventDefault();
     handleOperation(operation, req, res);
@@ -43,11 +34,6 @@ export default function ValidationTextFields({ operation, res }) {
     <ValidatorForm ref={formRef} className={classes.root} autoComplete="off" onSubmit={handleSubmit}>
       <Grid container item xs={12} spacing={3}>
         {operation === 'Registrar' && (
-          // <Grow
-          //   in={operation === 'Registrar'}
-          //   // style={{ transformOrigin: '0 0 0' }}
-          //   {...(operation === 'Registrar' ? { timeout: 1000 } : {})}
-          // >
           <>
             <TextValidator
               id="name"
@@ -68,7 +54,6 @@ export default function ValidationTextFields({ operation, res }) {
               errorMessages={['Email es requerido', 'Email no válido']}
             />
           </>
-          // </Grow>
         )}
         {
           operation !== 'Confirmar pago' && (
@@ -138,4 +123,6 @@ export default function ValidationTextFields({ operation, res }) {
       </Grid>
     </ValidatorForm>
   );
-}
+};
+
+export default FormRegister;

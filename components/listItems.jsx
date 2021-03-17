@@ -8,7 +8,7 @@ import BarChartIcon from '@material-ui/icons/BarChart';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 
-const mainListItems = ({ setOperation }) => (
+const ListItems = ({ setOperation }) => (
   <List>
     <ListItem button onClick={() => setOperation('Registrar')}>
       <ListItemIcon>
@@ -43,4 +43,4 @@ const mainListItems = ({ setOperation }) => (
   </List>
 );
 
-export default mainListItems;
+export default ListItems;
